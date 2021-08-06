@@ -3,22 +3,24 @@ Declarative React Table under 1kb.
 
 ## Feature
 - No dependencies.
-- Small, as low as 445 bytes.
+- Small, at lowest at 468 bytes on production.
 - Easy to understand, declarative.
 - Automatic key management.
 - Full control over table.
 - Full TypeScript support.
 
 ## Size
-At the lowest at 445 bytes.
+Should be around 500-600 bytes, checkout [Bundlephobia](https://bundlephobia.com/package/@saltyaom/react-table) for accurate result.
 
-| Type         | File               | Size  | gzip |
-| ------------ | ------------------ | ----- | ---- |
-| es2019, cjs  | index.js           | 3,037 | 985  |
-| es2019, esm  | esm/index.js       | 1,669 | 590  |
-| es5, cjs     | es5/index.js       | 2,607 | 855  |
-| es2019, cjs  | dist/cjs/index.js  | 1,504 | 724  |
-| es2019, esm  | dist/esm/index.js  | 874   | 445  |
+But here's pre-calculated, at the lowest at 445 bytes.
+
+| Type         | File               | Size  | gzip  |
+| ------------ | ------------------ | ----- | ----- |
+| es2019, cjs  | index.js           | 3,278 | 1,037 |
+| es2019, esm  | esm/index.js       | 1,910 | 647   |
+| es5, cjs     | es5/index.js       | 3,078 | 899   |
+| es2019, cjs  | dist/cjs/index.js  | 1,603 | 741   |
+| es2019, esm  | dist/esm/index.js  | 937   | 468   |
 
 ## Getting start
 ```bash
@@ -35,13 +37,13 @@ import Table from '@saltyaom/react-table'
 const Example = () => {
     return (
         <Table
-            header=['name', 'detail']
+            header={['name', 'detail']}
             data=[
                 ['Fubuki', 'Waifriend'],
                 ['Korone', 'Yubi yubi']   
             ]
             dataKey='name'
-        >
+        />
     )
 }
 ```
