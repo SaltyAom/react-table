@@ -184,14 +184,14 @@ Table is the only export and is default export from `@saltyaom/react-table`.
 
 The acceptable props is:
 ```typescript
-export interface ITable {
+export interface ITable<T = (string | number | JSX.Element)[] | readonly (string | number | JSX.Element)[]> {
 	/**
 	 * Table header to be appear in `<thead>` in order.
 	 *
 	 * @example
 	 * ['name', 'description']
 	 */
-	header: string[] | readonly string[]
+	header: T
 
 	/**
 	 * Data to be appear for each row `<td>` in order.
@@ -202,11 +202,7 @@ export interface ITable {
 	 *  ['Okayu', 'Cat']
 	 * ]
 	 */
-	data:
-		| (string | number)[][]
-		| (readonly (string | number)[])[]
-		| readonly (string | number)[][]
-		| readonly (readonly (string | number)[])[]
+	data: T[] | readonly T[]
 
 	/**
 	 * Key of data, can be either `string` which match in `header` or number as index.
@@ -268,7 +264,7 @@ export interface ITable {
 	 *  if(rowData.index === 0) return 'bg-red-50'
 	 * }
 	 */
-	trClassName?: string | ((data: readonly (string | number)[], index: number) => string)
+	trClassName?: string | ((data: readonly T[], index: number) => string)
 	/**
 	 * className of `<td>`
 	 *
@@ -284,7 +280,9 @@ export interface ITable {
 	 *  if(index === 0) return 'text-blue-500'
 	 * }
 	 */
-	tdClassName?: (string | ((data: string, index: number) => string))[] | ((data: string, index: number) => string)
+	tdClassName?:
+		| (string | ((data: any, index: number) => string))[]
+		| ((data: string, index: number) => string)
 	/**
 	 * className to apply to all `<tbody>`
 	 */
