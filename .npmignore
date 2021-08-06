@@ -1,0 +1,5 @@
+.node_modules
+examples
+.prettierrc
+tsconfig.json
+DS_Store
