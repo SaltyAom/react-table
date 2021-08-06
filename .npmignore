@@ -1,5 +1,7 @@
-.node_modules
+node_modules
 examples
 .prettierrc
-tsconfig.json
+tsconfig.es5.json
 DS_Store
+builders
+yarn.lock

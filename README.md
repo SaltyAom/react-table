@@ -29,7 +29,7 @@ npm install @saltyaom/react-table --save
 ```
 
 ## Example
-```
+```jsx
 import Table from '@saltyaom/react-table'
 
 const Example = () => {
