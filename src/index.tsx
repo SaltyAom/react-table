@@ -7,7 +7,11 @@ const is = (
 	type: 'string' | 'number' | 'function' | 'object'
 ) => typeof something == type
 
-export interface ITable<T = (string | number | JSX.Element)[] | readonly (string | number | JSX.Element)[]> {
+export interface ITable<
+	T =
+		| (string | number | JSX.Element)[]
+		| readonly (string | number | JSX.Element)[]
+> {
 	/**
 	 * Table header to be appear in `<thead>` in order.
 	 *
@@ -147,9 +151,13 @@ const Table: FunctionComponent<ITable> = ({
 										: index
 								}
 								className={`${thClassName[index]} ${allThClassName}`}
-								style={{
-									minWidth: `${cellsWidth[index]}px`
-								}}
+								style={
+									cellsWidth[index]
+										? {
+												minWidth: `${cellsWidth[index]}px`
+										  }
+										: {}
+								}
 							>
 								{head}
 							</th>

@@ -2,7 +2,7 @@ import Table from '@saltyaom/react-table'
 
 const VTuberTable = () => {
 	const header = ['name', 'type', 'value']
-    const size = [100, 96, 60]
+	const size = [100, 96, 60]
 	const data = [
 		['Okayu', <b>Fox</b>, 10],
 		['Korone', <u>Fox</u>, -1],
@@ -72,7 +72,7 @@ const VTuberTable = () => {
                             background-color: rgba(0,0,0,.0375);
                         }
 
-                        #app {
+                        #table-root {
                             display: flex;
                             flex-direction: column;
                             justify-content: center;
@@ -98,26 +98,24 @@ const VTuberTable = () => {
                     `
 				}}
 			/>
-			<div id="app">
+			<div id="table-root">
 				<Table
 					dataKey="name"
 					header={header}
 					data={data}
-
-                    wrapperClassName="wrapper"
+					wrapperClassName="wrapper"
 					className="table"
 					cellsWidth={size}
-
-                    allThClassName="title row"
+					allThClassName="title row"
 					allTdClassName="row"
-
-                    trClassName='hover-effect'
+					trClassName="hover-effect"
 					thClassName={['text-blue']}
 					tdClassName={[
 						'',
 						'',
 						// On index 2, apply custom condition
-						(value: number) => (value >= 0 ? 'text-green' : 'text-red')
+						(value: number) =>
+							value >= 0 ? 'text-green' : 'text-red'
 					]}
 				/>
 				<a
@@ -126,8 +124,10 @@ const VTuberTable = () => {
 					aria-level={1}
 					href="https://github.com/saltyaom/react-table"
 					target="_blank"
-                    title="View on Github"
-				>@saltyaom/react-table</a>
+					title="View on Github"
+				>
+					@saltyaom/react-table
+				</a>
 			</div>
 		</>
 	)
