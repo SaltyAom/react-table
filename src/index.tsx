@@ -150,7 +150,7 @@ const Table: FunctionComponent<ITable> = ({
 										? (head as string)
 										: index
 								}
-								className={`${thClassName[index]} ${allThClassName}`}
+								className={`${thClassName[index] || ''} ${allThClassName}`}
 								style={
 									cellsWidth[index]
 										? {
@@ -191,7 +191,7 @@ const Table: FunctionComponent<ITable> = ({
 															index: number
 													  ) => string)
 												)[]
-										  )[index]
+										  )[index] || ''
 										: (tdClassName as Function)(
 												rowData,
 												index
