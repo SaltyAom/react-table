@@ -1,6 +1,9 @@
 # @saltyaom/react-table
 Declarative React Table under 1kb.
 
+![Polka Drake](https://user-images.githubusercontent.com/35027979/128559117-6cc3adcb-daf9-4bdd-8778-0abda552d5a1.jpg)
+##### Humanity Restored
+
 ## Feature
 - No dependencies.
 - Small, at lowest at 468 bytes on production.
@@ -49,9 +52,6 @@ const Example = () => {
 ```
 
 ## Why
-![Polka Drake](https://user-images.githubusercontent.com/35027979/128559117-6cc3adcb-daf9-4bdd-8778-0abda552d5a1.jpg)
-##### Humanity Restored
-
 Compose React table in a simple, elegant way.
 
 Creating table in React is complicate.
