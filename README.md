@@ -1,6 +1,9 @@
 # @saltyaom/react-table
 Declarative React Table under 1kb.
 
+![Polka Drake](https://user-images.githubusercontent.com/35027979/128559117-6cc3adcb-daf9-4bdd-8778-0abda552d5a1.jpg)
+##### Humanity Restored
+
 ## Feature
 - No dependencies.
 - Light, under 600 bytes on production.
@@ -176,7 +179,11 @@ Table is the only export and is default export from `@saltyaom/react-table`.
 
 The acceptable props is:
 ```typescript
-export interface ITable<T = (string | number | JSX.Element)[] | readonly (string | number | JSX.Element)[]> {
+export interface ITable<
+	T =
+		| (string | number | JSX.Element)[]
+		| readonly (string | number | JSX.Element)[]
+> {
 	/**
 	 * Table header to be appear in `<thead>` in order.
 	 *
@@ -205,7 +212,7 @@ export interface ITable<T = (string | number | JSX.Element)[] | readonly (string
 	 * @example
 	 * 'name'
 	 */
-	dataKey: string | number
+	dataKey?: string | number
 
 	/**
 	 * className of wrapper of `<table>`
@@ -279,6 +286,137 @@ export interface ITable<T = (string | number | JSX.Element)[] | readonly (string
 	 * className to apply to all `<tbody>`
 	 */
 	allTdClassName?: string
+
+	/**
+	 * Prepend element before table
+	 *
+	 * @example
+	 * <nav>
+	 * 	 <input
+	 * 	   name="search"
+	 * 	   type="text"
+	 *     placeholder="Search"
+	 *     onChange={handleSearch}
+	 *   />
+	 * </nav>
+	 */
+	beforeTable?: JSX.Element
+	/**
+	 * Append element after table
+	 *
+	 * @example
+	 * <section className="pagination">
+	 * 	<button className="prev" onClick={previous}>Previous</button>
+	 * 	<button className="next" onClick={next}>Next</button>
+	 * </section>
+	 */
+	afterTable?: JSX.Element
+
+	/**
+	 * Add custom props to `<table>` element
+	 *
+	 * @example
+	 * {
+	 *   style={
+	 *     borderCollapse: 'collapse'
+	 *   }
+	 * }
+	 */
+	tableProps?: Omit<
+		DetailedHTMLProps<
+			TableHTMLAttributes<HTMLTableElement>,
+			HTMLTableElement
+		>,
+		'className'
+	>
+
+	/**
+	 * Add custom props to `<thead>` element
+	 *
+	 * @example
+	 * {
+	 *   onClick: () => console.log("Clicked")
+	 * }
+	 */
+	theadProps?: Omit<
+		DetailedHTMLProps<
+			HTMLAttributes<HTMLTableSectionElement>,
+			HTMLTableSectionElement
+		>,
+		'className'
+	>
+	/**
+	 * Add custom props to `<th>` element
+	 *
+	 * @example
+	 * (data, index) => {
+	 *   if(isOdd(index)) return ({ className: '--odd' })
+	 * }
+	 */
+	thProps?: (
+		data: T[keyof T],
+		index: number
+	) => Omit<
+		DetailedHTMLProps<
+			ThHTMLAttributes<HTMLTableHeaderCellElement>,
+			HTMLTableHeaderCellElement
+		>,
+		'className'
+	> | void
+	/**
+	 * Add custom props to `<tbody>` element
+	 *
+	 * @example
+	 * {
+	 *   onClick: (data, index) => console.log("Clicked")
+	 * }
+	 */
+	tbodyProps?: Omit<
+		DetailedHTMLProps<
+			HTMLAttributes<HTMLTableSectionElement>,
+			HTMLTableSectionElement
+		>,
+		'className'
+	>
+	/**
+	 * Add custom props to `<tr>` element
+	 *
+	 * @example
+	 * (data, index) => {
+	 *   if(isOdd(index)) return ({ className: '--odd' })
+	 * }
+	 */
+	trProps?: (
+		row: T,
+		index: number
+	) => Omit<
+		DetailedHTMLProps<
+			HTMLAttributes<HTMLTableRowElement>,
+			HTMLTableRowElement
+		>,
+		'className'
+	> | void
+	/**
+	 * Add custom props to `<td>` element
+	 *
+	 * @example
+	 * (data, { column, row }) => ({
+	 *   onClick: () => console.log(column, row)
+	 * })
+	 */
+	tdProps?: (
+		data: T[keyof T],
+		indexes: {
+			column: number
+			row: number
+		}
+	) => Omit<
+		DetailedHTMLProps<
+			TdHTMLAttributes<HTMLTableDataCellElement>,
+			HTMLTableDataCellElement
+		>,
+		'className'
+	> | void
 }
 ```
 
