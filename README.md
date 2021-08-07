@@ -31,7 +31,7 @@ const Example = () => {
     return (
         <Table
             header={['name', 'detail']}
-			dataKey='name'
+            dataKey='name'
             data={[
                 ['Fubuki', 'Waifriend'],
                 ['Korone', 'Yubi yubi']   
