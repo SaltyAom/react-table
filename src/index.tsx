@@ -1,11 +1,21 @@
 import React from 'react'
 
-import type { FunctionComponent } from 'react'
+import type {
+	FunctionComponent,
+	DetailedHTMLProps,
+	TableHTMLAttributes,
+	HTMLAttributes,
+	ThHTMLAttributes,
+	TdHTMLAttributes
+} from 'react'
 
 const is = (
 	something: unknown,
-	type: 'string' | 'number' | 'function' | 'object'
+	type: 'string' | 'number' | 'function' | 'object' | 'undefined'
 ) => typeof something == type
+
+const undef = undefined
+const undefString = 'undefined'
 
 export interface ITable<
 	T =
@@ -40,7 +50,7 @@ export interface ITable<
 	 * @example
 	 * 'name'
 	 */
-	dataKey: string | number
+	dataKey?: string | number
 
 	/**
 	 * className of wrapper of `<table>`
@@ -114,6 +124,137 @@ export interface ITable<
 	 * className to apply to all `<tbody>`
 	 */
 	allTdClassName?: string
+
+	/**
+	 * Prepend element before table
+	 *
+	 * @example
+	 * <nav>
+	 * 	 <input
+	 * 	   name="search"
+	 * 	   type="text"
+	 *     placeholder="Search"
+	 *     onChange={handleSearch}
+	 *   />
+	 * </nav>
+	 */
+	beforeTable?: JSX.Element
+	/**
+	 * Append element after table
+	 *
+	 * @example
+	 * <section className="pagination">
+	 * 	<button className="prev" onClick={previous}>Previous</button>
+	 * 	<button className="next" onClick={next}>Next</button>
+	 * </section>
+	 */
+	afterTable?: JSX.Element
+
+	/**
+	 * Add custom props to `<table>` element
+	 *
+	 * @example
+	 * {
+	 *   style={
+	 *     borderCollapse: 'collapse'
+	 *   }
+	 * }
+	 */
+	tableProps?: Omit<
+		DetailedHTMLProps<
+			TableHTMLAttributes<HTMLTableElement>,
+			HTMLTableElement
+		>,
+		'className'
+	>
+
+	/**
+	 * Add custom props to `<thead>` element
+	 *
+	 * @example
+	 * {
+	 *   onClick: () => console.log("Clicked")
+	 * }
+	 */
+	theadProps?: Omit<
+		DetailedHTMLProps<
+			HTMLAttributes<HTMLTableSectionElement>,
+			HTMLTableSectionElement
+		>,
+		'className'
+	>
+	/**
+	 * Add custom props to `<th>` element
+	 *
+	 * @example
+	 * (data, index) => {
+	 *   if(isOdd(index)) return ({ className: '--odd' })
+	 * }
+	 */
+	thProps?: (
+		data: T[keyof T],
+		index: number
+	) => Omit<
+		DetailedHTMLProps<
+			ThHTMLAttributes<HTMLTableHeaderCellElement>,
+			HTMLTableHeaderCellElement
+		>,
+		'className'
+	> | void
+	/**
+	 * Add custom props to `<tbody>` element
+	 *
+	 * @example
+	 * {
+	 *   onClick: (data, index) => console.log("Clicked")
+	 * }
+	 */
+	tbodyProps?: Omit<
+		DetailedHTMLProps<
+			HTMLAttributes<HTMLTableSectionElement>,
+			HTMLTableSectionElement
+		>,
+		'className'
+	>
+	/**
+	 * Add custom props to `<tr>` element
+	 *
+	 * @example
+	 * (data, index) => {
+	 *   if(isOdd(index)) return ({ className: '--odd' })
+	 * }
+	 */
+	trProps?: (
+		row: T,
+		index: number
+	) => Omit<
+		DetailedHTMLProps<
+			HTMLAttributes<HTMLTableRowElement>,
+			HTMLTableRowElement
+		>,
+		'className'
+	> | void
+	/**
+	 * Add custom props to `<td>` element
+	 *
+	 * @example
+	 * (data, { column, row }) => ({
+	 *   onClick: () => console.log(column, row)
+	 * })
+	 */
+	tdProps?: (
+		data: T[keyof T],
+		indexes: {
+			column: number
+			row: number
+		}
+	) => Omit<
+		DetailedHTMLProps<
+			TdHTMLAttributes<HTMLTableDataCellElement>,
+			HTMLTableDataCellElement
+		>,
+		'className'
+	> | void
 }
 
 const Table: FunctionComponent<ITable> = ({
@@ -121,18 +262,28 @@ const Table: FunctionComponent<ITable> = ({
 	data = [],
 	dataKey = 0,
 
-	wrapperClassName = '',
-	className = '',
+	wrapperClassName = undefined,
+	className = undefined,
 	cellsWidth = [],
 
-	theadClassName = '',
+	theadClassName = undefined,
 	thClassName = [],
-	allThClassName = '',
+	allThClassName = undefined,
 
-	tbodyClassName = '',
-	trClassName = '',
+	tbodyClassName = undefined,
+	trClassName = undefined,
 	tdClassName = [],
-	allTdClassName = ''
+	allTdClassName = undefined,
+
+	beforeTable = null,
+	afterTable = null,
+
+	tableProps = {},
+	theadProps = {},
+	tbodyProps = {},
+	thProps = () => ({}),
+	trProps = () => ({}),
+	tdProps = () => ({})
 }) => {
 	let keyIndex = is(dataKey, 'string')
 		? header.indexOf(dataKey as string)
@@ -140,35 +291,47 @@ const Table: FunctionComponent<ITable> = ({
 
 	return (
 		<section className={wrapperClassName}>
-			<table className={className}>
-				<thead className={theadClassName}>
+			{beforeTable}
+			<table className={className} {...tableProps}>
+				<thead className={theadClassName} {...theadProps}>
 					<tr>
-						{header.map((head, index) => (
-							<th
-								key={
-									is(head, 'string')
-										? (head as string)
-										: index
-								}
-								className={`${thClassName[index] || ''} ${allThClassName}`}
-								style={
-									cellsWidth[index]
-										? {
-												minWidth: `${cellsWidth[index]}px`
-										  }
-										: {}
-								}
-							>
-								{head}
-							</th>
-						))}
+						{header.map((head, index) => {
+							let className = `${thClassName[index] || ''} ${
+								allThClassName ?? ''
+							}` || ' '
+
+							return (
+								<th
+									key={
+										is(head, 'string')
+											? (head as string)
+											: index
+									}
+									className={
+										className != ' ' ? className : undef
+									}
+									style={
+										cellsWidth[index]
+											? {
+													minWidth: `${cellsWidth[index]}px`
+											  }
+											: {}
+									}
+									{...(thProps(head, index) || {})}
+								>
+									{head}
+								</th>
+							)
+						})}
 					</tr>
 				</thead>
-				<tbody className={tbodyClassName}>
-					{data.map((row, index) => {
+				<tbody className={tbodyClassName} {...tbodyProps}>
+					{data.map((row, rowIndex) => {
 						let className = is(trClassName, 'string')
 							? trClassName
-							: (trClassName as Function)(row, index) || ''
+							: is(trClassName, undefString)
+							? trClassName
+							: (trClassName as Function)(row, rowIndex) || undef
 
 						let currentKey = row[keyIndex]
 
@@ -178,8 +341,9 @@ const Table: FunctionComponent<ITable> = ({
 								key={
 									is(currentKey, 'string')
 										? (currentKey as string)
-										: index
+										: rowIndex
 								}
+								{...(trProps(row, rowIndex) || {})}
 							>
 								{row.map((rowData, index) => {
 									let className = is(tdClassName, 'object')
@@ -191,20 +355,32 @@ const Table: FunctionComponent<ITable> = ({
 															index: number
 													  ) => string)
 												)[]
-										  )[index] || ''
+										  )[index] || undef
+										: is(tdClassName, undefString)
+										? ''
 										: (tdClassName as Function)(
 												rowData,
 												index
-										  ) || ''
+										  ) || undef
 
 									if (is(className, 'function'))
 										className =
-											className(rowData, index) || ''
+											className(rowData, index) || undef
+
+									let _className = `${className ?? ''} ${allTdClassName ?? ''}`
 
 									return (
 										<td
 											key={`${header[index]}-${rowData}`}
-											className={`${className} ${allTdClassName}`}
+											className={
+												_className != ' '
+													? _className
+													: undef
+											}
+											{...(tdProps(rowData, {
+												column: index,
+												row: rowIndex
+											}) || {})}
 										>
 											{rowData}
 										</td>
@@ -215,6 +391,7 @@ const Table: FunctionComponent<ITable> = ({
 					})}
 				</tbody>
 			</table>
+			{afterTable}
 		</section>
 	)
 }

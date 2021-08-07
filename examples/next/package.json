@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "next"
+    "dev": "next",
+    "rb": "cd ../.. && yarn build && cd examples/next && rm -rf node_modules && rm -rf .next && yarn && yarn dev"
   },
   "dependencies": {
     "@saltyaom/react-table": "../../",

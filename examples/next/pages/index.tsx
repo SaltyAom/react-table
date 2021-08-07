@@ -14,18 +14,6 @@ const VTuberTable = () => {
 			<style
 				dangerouslySetInnerHTML={{
 					__html: `
-                        * {
-                            box-sizing: border-box;
-                        }
-
-                        html {
-                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                        }
-
-                        body {
-                            margin: 0;
-                        }
-
                         .wrapper {
                             overflow: scroll;
                             border-radius: 4px;

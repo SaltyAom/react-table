@@ -3,7 +3,7 @@ Declarative React Table under 1kb.
 
 ## Feature
 - No dependencies.
-- Small, at lowest at 468 bytes on production.
+- Light, under 600 bytes on production.
 - Easy to understand, declarative.
 - Automatic key management.
 - Full control over table.
@@ -11,16 +11,6 @@ Declarative React Table under 1kb.
 
 ## Size
 Should be around 500-600 bytes, checkout [Bundlephobia](https://bundlephobia.com/package/@saltyaom/react-table) for accurate result.
-
-But here's pre-calculated, at the lowest at 445 bytes.
-
-| Type         | File               | Size  | gzip  |
-| ------------ | ------------------ | ----- | ----- |
-| es2019, cjs  | index.js           | 3,278 | 1,037 |
-| es2019, esm  | esm/index.js       | 1,910 | 647   |
-| es5, cjs     | es5/index.js       | 3,078 | 899   |
-| es2019, cjs  | dist/cjs/index.js  | 1,603 | 741   |
-| es2019, esm  | dist/esm/index.js  | 937   | 468   |
 
 ## Getting start
 ```bash
