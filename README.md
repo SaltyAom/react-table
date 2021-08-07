@@ -6,14 +6,14 @@ Declarative React Table under 1kb.
 
 ## Feature
 - No dependencies.
-- Light, under 600 bytes on production.
+- Light, 700 bytes on production.
 - Easy to understand, declarative.
 - Automatic key management.
 - Full control over table.
 - Full TypeScript support.
 
 ## Size
-Should be around 500-600 bytes, checkout [Bundlephobia](https://bundlephobia.com/package/@saltyaom/react-table) for accurate result.
+Should be around 700 bytes, checkout [Bundlephobia](https://bundlephobia.com/package/@saltyaom/react-table) for accurate result.
 
 ## Getting start
 ```bash
